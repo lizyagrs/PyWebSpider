@@ -45,7 +45,7 @@ if __name__ == '__main__':
     #分省数据为第三个get的数组，因此这里拆分第三组的分省数据，数组从0开始，因此第三组的索引为2
     province_data = get_data(table[2],province_label)
 
-    #获取各处所有城市数据,指定城市数据标签
+    #获取各省所有城市数据,指定城市数据标签
     pro_city_label = r'"cities"(.*?)"provin'
     #仍然从分省数据中获取数值
     pro_city_data = get_data(table[2],pro_city_label)
