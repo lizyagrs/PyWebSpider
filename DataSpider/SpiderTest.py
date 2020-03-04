@@ -31,12 +31,12 @@ if __name__ == '__main__':
     html =get_content(url)
 
     label = r'<ul class="on"(.*?)</ul>'
-    table =get_data(html,label)
+    #table =get_data(html,label)
 
     li_label = r'<li>(.*?)</li>'
-    li_data =get_data(table[0],li_label)
+    #li_data =get_data(table[0],li_label)
     #获取table数组长度
-    ncount_li_data = len(li_data)
+    #ncount_li_data = len(li_data)
 
     # span_label = r'<span(.*?)</span>'
     # #遍历所有数组
