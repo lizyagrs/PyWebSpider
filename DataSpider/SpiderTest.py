@@ -109,8 +109,9 @@ def getDataFrom(url):
 
 #写入EXCEL
 def WriteExcel(pd_data,ExcelName,sheetName):
+
     writer = pd.ExcelWriter(ExcelName)		# 写入Excel文件
-    pd_data.to_excel(writer, sheetName)		# 写入excel的sheet名
+    pd_data.to_excel(writer, sheetName,index=False)		# 写入excel的sheet名
     writer.save()
     writer.close()
     print('Done:'+ExcelName)
