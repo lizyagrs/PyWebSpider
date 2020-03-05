@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import urllib.request as req
 import re
 import numpy as np
@@ -20,7 +21,7 @@ def get_data(html,label):
     #遍历所有数组
     for i in range(ncount_table):
         #print('-----------取出数据中的第'+str(i+1)+'组数据-----------')
-        #取出数据中的第三组数据
+        #取出数据中的数据
         subtable = table[i]
         #print(subtable)
     return table
@@ -52,15 +53,14 @@ def getDataFrom(url):
     #指定温度的标签
     span_wd_label = r'<span class="wd"(.*?)</span>'
 
-    colunms=['Num','city','prov','wd']
-
+    #气象数据列表
     weather_list=[]
 
     #如果数组不为空
     if len(li_data)>0:
         #遍历所有数组
         for i in range(ncount_li_data):
-
+            #每一行的数据组合
             sub_list = []
             if li_data[i] is not None:
                 sub_list.append(i+1)
@@ -99,7 +99,11 @@ def getDataFrom(url):
                     sub_list.append(wd_value[0])
             weather_list.append(sub_list)
             print(weather_list)
+    #准备数据集
     pd_data = pd.DataFrame(weather_list)
+    #表格列名，为输出EXCEL做准备
+    colunms=['Num','city','prov','wd']
+    #添加列名
     pd_data.columns=colunms
     print(pd_data)
     ExcelName=r'D:\GitHub\PyWebSpider\Data\WeatherArray.xlsx'
