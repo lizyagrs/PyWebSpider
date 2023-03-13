@@ -1,4 +1,4 @@
-#coding:utf-8
+# encoding:utf-8
 import re
 from bs4 import BeautifulSoup# 导入BeautifulSoup
 import requests#导入工具包
@@ -18,57 +18,57 @@ def PrettifyDoc(html_text):
     return prettify_doc # 返回结构化后的信息
 
 if __name__ == '__main__':
-
     # 1.获取网页信息
-    url='https://www.timeanddate.com/weather/'#目标网址
+    url='https://www.timeanddate.com/weather/?low=c'#目标网址
     html_text=getWebInfo(url)#调用方法获取网页信息
-    # print(html_text) #输出网页内容
-    # 结构化网页信息测试
-    # print(20*'-----')
-    # prettify_doc=PrettifyDoc(html_text)
-    # print(prettify_doc)# 输出结构化后的网页信息
-
     # 2.获取指定区域内容【标签或者CSS样式类】
-    print('---获取指定区域内容【标签或者CSS样式类】--------')
     # 将网页信息读入BeautifulSoup中
     soup=BeautifulSoup(html_text,'html.parser')
     # 获取  <table> 标签所有内容
-    table_on_label = soup.find_all('table')
-    # print(table_on_label)
+    table_info = soup.find_all('table')
+    # print(table_info)
     # 将网页信息读入BeautifulSoup中
-    soup_table=BeautifulSoup(str(table_on_label),'html.parser')
+    soup_table=BeautifulSoup(str(table_info),'html.parser')
     prettify_doc = soup_table.prettify()# 结构化网页信息
-    print(prettify_doc)# 输出结构化后的网页信息
+    # print(prettify_doc)# 输出结构化后的网页信息
 
     # 3.获取表格当中的内容
-    print('--------获取表格当中的内容------')
+    # print('--------获取表格当中的内容------')
 
     # 获取城市名列表
     city_name_label_list=soup_table.select('td > a')
-    # print(city_name_label_list)
-    city_list=[]
+    city_list=[];city_list_print=[]
     for city_name in city_name_label_list:
-        city_list.append(city_name.text)
+        city_list.append(city_name.text)#获取列表中的城市名文本信息
+        # city_list_print.append(city_name.text)#此列表仅用来打印输出预览结果
+        #为方便查看每10个打印一组：对索引取10的模，如果能整除则输出
+        # if(city_name_label_list.index(city_name)%10==0):
+        #     # print(city_list_print)
+        #     city_list_print=[] #打印完清空
     print(city_list)
-
-    # 获取时间数值列表,td[id]表示在td标签中是否有id
-    # 也可以使用soup.find_all(id=True)
+    # 获取时间数值列表,判断td标签中是否包含id属性：select('td[id]')
     time_label_list=soup_table.select('td[id]')
     # print(time_label_list)
-    time_list=[]
+    time_list=[];time_list_print=[]
     for time_label in time_label_list:
         time_list.append(time_label.text)
-    print(time_list)
+        # time_list_print.append(time_label.text)#此列表仅用来打印输出预览结果
+        #为方便查看每10个打印一组：对索引取10的模，如果能整除则输出
+        # if(time_label_list.index(time_label)%10==0):
+        #     print(time_list_print)
+        #     time_list_print=[] #打印完清空
 
+    print(time_list)
+    #
     # 获取图片链接列表,img ，并且获取天气类型名称
     img_label_list=soup_table.find_all('img')
-    # print(img_label_list)
     src_list=[]
     weatherType_list=[]
     for img in img_label_list:
+        #天气类型图标链接
         src_list.append('https:'+img['src'])
+        #天气类型名称
         weatherType_list.append(img['alt'])
-        # print('图片网址：https:'+img['src']+':::天气类型：'+img['alt'])
     print(src_list)
     print(weatherType_list)
     # 获取温度数值列表
@@ -79,9 +79,7 @@ if __name__ == '__main__':
         temp_list.append(temp.text.replace('\xa0', ''))
     print(temp_list)
 
-    # print('---------------------------获取表中的数据区域信息---------------------------')
-
-    # data = [city_list,time_list,src_list,weatherType_list,temp_list]
+    # # print('---------------------------获取表中的数据区域信息---------------------------')
     data = {
         'City':city_list,
         'Date':time_list,

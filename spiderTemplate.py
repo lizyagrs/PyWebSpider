@@ -57,17 +57,16 @@ def getHTMLContent(url):
 #主函数
 if __name__ == '__main__':
     #目标网站
-    url ='http://www.weather.com.cn/'
+    url ='http://lishi.tianqi.com/wuhan'
     #返回的网页内容
     HTMLContent = getHTMLContent(url)
     #打印网页内容
     # print(HTMLContent)
-    # pDoc=PrettifyDoc(HTMLContent)
+    pDoc=PrettifyDoc(HTMLContent)
     # HTML_Text=getTextFromDoc(HTMLContent)
-    # tagContent=getTagContentFromDoc(HTMLContent,'img')
-    # 获取所有图片链接
-    label=r'<img src="(.*?)"'
-    get_data(HTMLContent,label)
+    soup = BeautifulSoup(HTMLContent, 'html.parser')
+    title_name = soup.select('.tian_two')
+    print(title_name)
 
 
 
