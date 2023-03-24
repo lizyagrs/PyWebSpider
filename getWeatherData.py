@@ -30,34 +30,52 @@ def getInfoFromCMA(url):
     rank = soup_class_hot.find_all(class_='rank')
 
     for r in rank:
-        rank_list.append(r.text.strip())
+        if '排名' not in r.text:
+            rank_list.append(r.text.strip())
     print(rank_list)
-    print(10 * '---------')
+
     sname = soup_class_hot.select(' .sname')
     for s in sname:
-        sname_list.append(s.text.strip())
+        if '城市' not in s.text:
+            sname_list.append(s.text.strip())
     print(sname_list)
-    print(10 * '---------')
+
     pname = soup_class_hot.select(' .pname')
     for p in pname:
-        pname_list.append(p.text.strip())
+        if '省份' not in p.text:
+            pname_list.append(p.text.strip())
     print(pname_list)
-    print(10 * '---------')
+
     value = soup_class_hot.select(' .value')
     for v in value:
-        value_list.append(v.text.replace('\xa0', '').strip())
+        if '温度' not in v.text:
+            value_list.append(v.text.strip())
     print(value_list)
 
-    data = {
-        "rank": rank_list,
-        "sname": sname_list,
-        "pname": pname_list,
-        "value": value_list
+    p_rank = pd.Series(rank_list)
+    print(p_rank)
+
+    p_sname = pd.Series(sname_list)
+    print(p_sname)
+
+    p_pname = pd.Series(pname_list)
+    print(p_pname)
+
+    p_value = pd.Series(value_list)
+    print(p_value)
+
+    data = {'排名': p_rank,
+            '城市':p_sname,
+            '省份':p_pname,
+            '最高温度':p_value
     }
+
+
+
     print(data)
     hot_df = pd.DataFrame(data)
     print(hot_df.head())
-    hot_df.to_csv('Data/weatherHotData.csv', encoding='utf_8_sig')
+    hot_df.to_csv('Data/weatherHotData.csv', encoding='utf_8_sig',index=False)
 
 
 # 获取动态网站加载数据
@@ -134,11 +152,11 @@ def getTimedata(url):
 
 
 if __name__ == '__main__':
-    # url = 'https://weather.cma.cn/'
-    # getInfoFromCMA(url)
+    url = 'https://weather.cma.cn/'
+    getInfoFromCMA(url)
 
-    url = ' http://www.weather.com.cn/'
-    getInfoFromWeatherCOM(url)
+    # url = ' http://www.weather.com.cn/'
+    # getInfoFromWeatherCOM(url)
 
     # url = 'https://www.timeanddate.com/weather/?low=c'  # 目标网址
     # # url = ' https://www.fdic.gov/resources/resolutions/bank-failures/failed-bank-list/'
